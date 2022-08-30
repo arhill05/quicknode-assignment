@@ -1,9 +1,12 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { GetServerSideProps, NextPage } from "next";
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
+import useTrendingCollections from "../lib/hooks/useTrendingCollections";
+import { Profile } from "../components/Profile";
 
 const Home: NextPage = () => {
+  const { loading, data } = useTrendingCollections();
   return (
     <div className={styles.container}>
       <Head>
@@ -13,12 +16,14 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        {/* <pre>{JSON.stringify(trendingCollections)};</pre> */}
+        <pre>{JSON.stringify(data)}</pre>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -59,14 +64,47 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by{" "}
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const query = gql`
+//     query TrendingCollections {
+//       trendingCollections(orderBy: SALES, orderDirection: DESC) {
+//         edges {
+//           node {
+//             address
+//             ... on ERC721Contract {
+//               name
+//               stats {
+//                 totalSales
+//                 average
+//                 ceiling
+//                 floor
+//                 volume
+//               }
+//               symbol
+//             }
+//           }
+//         }
+//       }
+//     }
+//   `;
+
+//   const data = await client.query({ query });
+
+//   return {
+//     props: {
+//       trendingCollections: data,
+//     },
+//   };
+// };
+
+export default Home;
