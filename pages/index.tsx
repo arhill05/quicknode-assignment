@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   return (
     <div className="bg-neutral-100 p-16">
       <Head>
-        <title>Fetch Trending Collections | SSR</title>
+        <title>Fetch Trending Collections | Client Side</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container mx-auto max-w-screen-lg">
