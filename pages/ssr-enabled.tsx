@@ -1,7 +1,7 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import client from "../lib/apollo-client";
+import apolloClient from "../lib/apollo-client";
 import {
   ERC721Contract,
   TrendingCollectionsQueryResult,
@@ -45,8 +45,8 @@ const SsrEnabled: NextPage<SsrEnabledProps> = ({ trendingCollections }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const data = await client.query<TrendingCollectionsQueryResult>({
+export const getServerSideProps: GetServerSideProps = async (_context) => {
+  const data = await apolloClient.query<TrendingCollectionsQueryResult>({
     query: GET_TRENDING_COLLECTIONS,
   });
 
