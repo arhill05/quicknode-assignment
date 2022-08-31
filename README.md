@@ -16,9 +16,6 @@ NEXT_PUBLIC_ICY_API_KEY={apikey}
 - I don't have API keys for Infura or Alchemy, so the only connector that is supported is the Coinbase Wallet connector
 
 # Tech Questions and Answers
-
-Going into as much detail as you want, describe how you would build a system that meets the following requirements:
-
 ## Database
 
 I like to start from the bottom up and define what the data model looks like. This will help give a vision for what the rest of the application is going to look like, because we're mainly focusing on serving data to a client.
