@@ -1,7 +1,7 @@
 import { ERC721Contract } from "../models/trending-collections";
 import { Contract } from "./Contract";
 
-export interface Props {
+export interface TrendingCollectionProps {
   trendingCollections?: ERC721Contract[];
   loading?: boolean;
 }
@@ -9,7 +9,7 @@ export interface Props {
 export const TrendingCollections = ({
   trendingCollections,
   loading,
-}: Props) => {
+}: TrendingCollectionProps) => {
   const cards = trendingCollections?.map((contract) => {
     return <Contract contract={contract} key={contract.address} />;
   });

@@ -1,28 +1,61 @@
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import Image from "next/image";
+import { useEffect, useState, MouseEvent } from "react";
+import {
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useEnsAvatar,
+  useEnsName,
+} from "wagmi";
+import { Button } from "./Button";
+import { ConnectedUser } from "./ConnectedUser";
+import { ConnectToWallet } from "./ConnectToWallet";
 
-export const Profile = () => {
-  const { address } = useAccount();
+export interface ProfileProps {
+  onUserConnectionChange?(isConnected: boolean): void;
+}
+
+export function Profile({ onUserConnectionChange }: ProfileProps) {
+  const { address, connector, isConnected } = useAccount();
+  const { data: ensAvatar } = useEnsAvatar({ addressOrName: address });
+  const { data: ensName } = useEnsName({ address });
+
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
   const { disconnect } = useDisconnect();
 
-  return (
-    <div>
-      {connectors.map((connector) => (
-        <button
-          disabled={!connector.ready}
-          key={connector.id}
-          onClick={() => connect({ connector })}
-        >
-          {connector.name}
-          {!connector.ready && " (unsupported)"}
-          {isLoading &&
-            connector.id === pendingConnector?.id &&
-            " (connecting)"}
-        </button>
-      ))}
+  const [isUserConnected, setIsUserConnected] = useState(false);
 
-      {error && <div>{error.message}</div>}
+  // necessary to trigger a render after hydration because
+  // the isConnected value is browser-specific
+  useEffect(() => {
+    setIsUserConnected(isConnected);
+    if (onUserConnectionChange) {
+      onUserConnectionChange(isConnected);
+    }
+  }, [isConnected, onUserConnectionChange]);
+
+  const onDisconnectClick = (event: MouseEvent<HTMLButtonElement>) => {
+    disconnect();
+  };
+
+  return isUserConnected ? (
+    <div className="flex justify-between">
+      <ConnectedUser
+        address={address}
+        ensName={ensName}
+        connectorName={connector?.name}
+        ensAvatar={ensAvatar}
+      />
+      <Button onClick={onDisconnectClick}>Disconnect</Button>
     </div>
+  ) : (
+    <ConnectToWallet
+      connect={connect}
+      connectors={connectors}
+      error={error}
+      isLoading={isLoading}
+      pendingConnector={pendingConnector}
+    />
   );
-};
+}

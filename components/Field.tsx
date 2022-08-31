@@ -1,9 +1,9 @@
-export interface Props {
+export interface FieldProps {
   label: string;
   value?: string | number;
 }
 
-export const Field = (props: Props) => (
+export const Field = (props: FieldProps) => (
   <div>
     <label
       className="font-semibold text-lg text-slate-600"

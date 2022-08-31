@@ -1,18 +1,13 @@
-import {
-  WagmiConfig,
-  createClient,
-  defaultChains,
-  configureChains,
-} from "wagmi";
+import { createClient, defaultChains, configureChains } from "wagmi";
 import { CoinbaseWalletConnector } from "wagmi/connectors/coinbaseWallet";
+import { InjectedConnector } from "wagmi/connectors/injected";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
 
 import { publicProvider } from "wagmi/providers/public";
 
 import { getDefaultProvider } from "ethers";
 
-const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
-  publicProvider(),
-]);
+const { chains } = configureChains(defaultChains, [publicProvider()]);
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -24,6 +19,9 @@ const wagmiClient = createClient({
         appName: "wagmi",
       },
     }),
+    // I don't have API keys for infura or alchemy, and these connectors do not support the default provider.
+    // new InjectedConnector(),
+    // new MetaMaskConnector({ chains }),
   ],
 });
 

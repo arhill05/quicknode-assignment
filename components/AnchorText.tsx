@@ -1,24 +1,23 @@
-import React, { ForwardedRef, forwardRef } from "react";
-import { PropsWithChildren } from "react";
+import React, { forwardRef, MouseEventHandler, PropsWithChildren } from "react";
 
-// eslint-disable-next-line react/display-name
-// export const AnchorText = forwardRef(
-//   (props: PropsWithChildren, ref: ForwardedRef<any>) => (
-//     <span className="text-purple-800 font-semibold cursor-pointer">
-//       {props.children}
-//     </span>
-//   )
-// );
+export interface AnchorTextProps extends PropsWithChildren {
+  href?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
+}
 
-const AnchorText = forwardRef(({ children, onClick, href }, ref) => {
-  return (
-    <a
-      className="text-purple-800 font-semibold cursor-pointer"
-      href={href}
-      onClick={onClick}
-      ref={ref}
-    >
-      {children}
-    </a>
-  );
-});
+export const AnchorText = forwardRef<HTMLAnchorElement, AnchorTextProps>(
+  ({ children, onClick, href }, ref) => {
+    return (
+      <a
+        className="text-purple-800 font-semibold cursor-pointer"
+        href={href}
+        onClick={onClick}
+        ref={ref}
+      >
+        {children}
+      </a>
+    );
+  }
+);
+
+AnchorText.displayName = "AnchorText";

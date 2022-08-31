@@ -2,11 +2,11 @@ import { ERC721Contract } from "../models/trending-collections";
 import { Card } from "./Card";
 import { Field } from "./Field";
 
-export interface Props {
+export interface ContractProps {
   contract: ERC721Contract;
 }
 
-export const Contract = ({ contract }: Props) => {
+export const Contract = ({ contract }: ContractProps) => {
   const { totalSales, average, ceiling, floor, volume } = contract.stats;
 
   return (
